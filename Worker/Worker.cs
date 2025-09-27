@@ -22,7 +22,7 @@ consumer.ReceivedAsync += async (model, ea) =>
     await Task.Delay(dots * 1000);
 
     Console.WriteLine(" [x] Done");
-}
+};
 
 await channel.BasicConsumeAsync("hello", autoAck: true, consumer: consumer);
 
