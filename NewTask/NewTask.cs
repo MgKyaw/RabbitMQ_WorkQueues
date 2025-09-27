@@ -16,6 +16,7 @@ Console.WriteLine($" [x] Sent {message}");
 
 Console.WriteLine(" Press [enter] to exit.");
 Console.ReadLine();
+
 static string GetMessage(string[] args)
 {
     return ((args.Length > 0) ? string.Join(" ", args) : "Hello World!");
