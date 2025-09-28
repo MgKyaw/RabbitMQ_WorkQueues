@@ -11,6 +11,8 @@ arguments: null);
 await channel.QueueDeclareAsync(queue: "task_queue", durable: true, exclusive: false,
 autoDelete: false, arguments: null);
 
+await channel.BasicQosAsync(prefetchSize: 0, prefetchCount: 1, global: false);
+
 var message = GetMessage(args);
 var body = Encoding.UTF8.GetBytes(message);
 
