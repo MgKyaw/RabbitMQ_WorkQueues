@@ -5,13 +5,8 @@ var factory = new ConnectionFactory { HostName = "localhost" };
 using var connection = await factory.CreateConnectionAsync();
 using var channel = await connection.CreateChannelAsync();
 
-await channel.QueueDeclareAsync(queue: "hello", durable: false, exclusive: false, autoDelete: false,
-arguments: null);
-
 await channel.QueueDeclareAsync(queue: "task_queue", durable: true, exclusive: false,
 autoDelete: false, arguments: null);
-
-await channel.BasicQosAsync(prefetchSize: 0, prefetchCount: 1, global: false);
 
 var message = GetMessage(args);
 var body = Encoding.UTF8.GetBytes(message);
@@ -21,11 +16,9 @@ var properties = new BasicProperties
     Persistent = true
 };
 
-await channel.BasicPublishAsync(exchange: string.Empty, routingKey: "task_queue", body: body);
+await channel.BasicPublishAsync(exchange: string.Empty, routingKey: "task_queue", mandatory: true,
+basicProperties: properties, body: body);
 Console.WriteLine($" [x] Sent {message}");
-
-Console.WriteLine(" Press [enter] to exit.");
-Console.ReadLine();
 
 static string GetMessage(string[] args)
 {
