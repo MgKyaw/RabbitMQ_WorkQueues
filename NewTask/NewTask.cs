@@ -14,6 +14,11 @@ autoDelete: false, arguments: null);
 var message = GetMessage(args);
 var body = Encoding.UTF8.GetBytes(message);
 
+var properties = new BasicProperties
+{
+    Persistent = true
+};
+
 await channel.BasicPublishAsync(exchange: string.Empty, routingKey: "task_queue", body: body);
 Console.WriteLine($" [x] Sent {message}");
 
